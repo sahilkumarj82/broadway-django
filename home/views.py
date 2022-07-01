@@ -3,9 +3,14 @@ from django.shortcuts import render
 from .models import *
 
 # Create your views here.
+def base():
+    views_dict = dict()
+    views_dict['informations'] = Information.objects.all()
+    views_dict['feedbacks'] = Feedback.objects.all().order_by('-id')[0:1]
+    return views_dict
 def home(request):
     views_dict = dict()
-    views_dict['feedbacks'] = Feedback.objects.all()
+    
     return render(request,'index.html' , views_dict)
     
 def about(request):
@@ -13,7 +18,6 @@ def about(request):
 
 def contact(request):
     views_dict = dict()
-    views_dict['informations'] = Information.objects.all()
     if request.method == "POST":
         na = request.POST['name']
         em = request.POST['email']
@@ -26,11 +30,9 @@ def contact(request):
             message = mes
         )
         data.save()
-        views_dict['message'] = 'Your Message Has Sent'
+        views_dict = base().update({'message' : "Your Message is send"})
         return render(request,'contact.html',views_dict)
-
-
-    return render(request,'contact.html',views_dict)
+    return render(request,'contact.html',base())
 
 def portfolio(request):
     return render(request,'portfolio.html')
