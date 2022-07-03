@@ -3,15 +3,16 @@ from django.shortcuts import render
 from .models import *
 
 # Create your views here.
-def base():
+def base(request):
     views_dict = dict()
     views_dict['informations'] = Information.objects.all()
-    views_dict['feedbacks'] = Feedback.objects.all().order_by('-id')[0:1]
+    views_dict['services'] = Services.objects.all()
+    views_dict['feedbacks'] = Feedback.objects.all().order_by('-id')
     return views_dict
+    
 def home(request):
     views_dict = dict()
-    
-    return render(request,'index.html' , views_dict)
+    return render(request,'index.html' , base(request))
     
 def about(request):
     return render(request,'about.html')
@@ -41,4 +42,4 @@ def price(request):
     return render(request,'price.html')
 
 def services(request):
-    return render(request,'services.html')
+    return render(request,'services.html',base())

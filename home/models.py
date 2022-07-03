@@ -29,3 +29,12 @@ class Information(models.Model):
 
     def __str__(self):
         return f"{self.address1}, {self.address2}, {self.phone},{self.time}, {self.email}"
+
+
+class Services(models.Model):
+    title = models.TextField()
+    comment = models.TextField()
+    image = models.TextField()
+
+    def __str__(self):
+        return self.title
